@@ -139,6 +139,6 @@ export const getServerSideProps = withSession(async (context) => {
   }
 
   return {
-    props: {}, // your normal props here
+    props: {},
   };
 });
