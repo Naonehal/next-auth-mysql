@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import withSession from "../utils/ironSessionMiddleware";
 
 const Profile = () => {
   // Initialize user state with default values
@@ -112,6 +113,7 @@ export default function Dashboard() {
       console.error('Error logging out:', error);
     }
   };
+  
 
   return (
     <div>
@@ -123,3 +125,20 @@ export default function Dashboard() {
     </div>
   );
 }
+
+export const getServerSideProps = withSession(async (context) => {
+  const user = context.req.session.get("user");
+
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {}, // your normal props here
+  };
+});
